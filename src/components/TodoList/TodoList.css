@@ -1,0 +1,78 @@
+.todo-container {
+    width: 80%;
+    margin: auto;
+    font-family: Arial, sans-serif;
+}
+
+.todo-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.todo-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-input,
+.edit-priority,
+.edit-due-date {
+    margin: 5px;
+    padding: 5px;
+}
+
+.edit-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+    opacity: 0.8;
+}
+
+.completed {
+    background-color: #f9f9f9;
+    text-decoration: line-through;
+}
+
+.action-buttons button {
+    margin-left: 10px;
+}
+
+.todo-priority {
+    margin-left: 20px;
+}
+
+.todo-due-date {
+    margin-left: 20px;
+}
