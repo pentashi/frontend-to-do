@@ -3,72 +3,84 @@ import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoList/TodoList';
 import axios from 'axios';
 
+const url = process.env.REACT_APP_API_URL || 'https://backend-to-do-pa38.onrender.com';
+
 const App = () => {
     const [todos, setTodos] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchTodos();
     }, []);
 
     const fetchTodos = async () => {
+        setLoading(true);
         try {
-            const response = await axios.get('http://localhost:5000/api/todos');
+            const response = await axios.get(`${url}/api/todos`);
             setTodos(response.data);
         } catch (err) {
-            console.error('Error fetching todos:', err);
+            alert('Failed to fetch todos. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
     const addTodo = async (todo) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/todos', todo);
-            fetchTodos(); // Refresh the todos list
+            const response = await axios.post(`${url}/api/todos`, todo);
+            setTodos([...todos, response.data]);
         } catch (error) {
-            console.error('Error adding task:', error);
+            alert('Error adding task. Please try again.');
         }
     };
 
     const toggleComplete = async (id) => {
         const todo = todos.find((todo) => todo._id === id);
         try {
-            const response = await axios.patch(`http://localhost:5000/api/todos/${id}`, {
+            const response = await axios.patch(`${url}/api/todos/${id}`, {
                 completed: !todo.completed,
             });
             setTodos(todos.map((todo) => (todo._id === id ? response.data : todo)));
         } catch (err) {
-            console.error('Error updating todo:', err);
+            alert('Error updating todo. Please try again.');
         }
     };
 
     const deleteTodo = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/todos/${id}`);
+            await axios.delete(`${url}/api/todos/${id}`);
             setTodos(todos.filter((todo) => todo._id !== id));
         } catch (err) {
-            console.error('Error deleting todo:', err);
+            alert('Error deleting todo. Please try again.');
         }
     };
 
     const editTodo = async (id, newText) => {
         try {
-            const response = await axios.patch(`http://localhost:5000/api/todos/${id}`, {
+            const response = await axios.patch(`${url}/api/todos/${id}`, {
                 text: newText,
             });
             setTodos(todos.map((todo) => (todo._id === id ? response.data : todo)));
         } catch (err) {
-            console.error('Error editing todo:', err);
+            alert('Error editing todo. Please try again.');
         }
     };
 
     return (
         <div>
-            <TodoForm addTodo={addTodo} />
-            <TodoList
-                todos={todos}
-                toggleComplete={toggleComplete}
-                deleteTodo={deleteTodo}
-                editTodo={editTodo} // Pass the editTodo function here
-            />
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <>
+                    <TodoForm addTodo={addTodo} />
+                    <TodoList
+                        todos={todos}
+                        toggleComplete={toggleComplete}
+                        deleteTodo={deleteTodo}
+                        editTodo={editTodo}
+                    />
+                </>
+            )}
         </div>
     );
 };
