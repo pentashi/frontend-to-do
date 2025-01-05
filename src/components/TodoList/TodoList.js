@@ -54,7 +54,7 @@ const TodoList = ({ todos, toggleComplete, deleteTodo, editTodo }) => {
                             <li key={todo._id} className="todo-item">
                                 <div className="todo-content">
                                     <label className="checkbox-label">
-                                        Completed:
+                                     Completed:
                                         <input
                                             type="checkbox"
                                             checked={todo.completed}
@@ -93,12 +93,16 @@ const TodoList = ({ todos, toggleComplete, deleteTodo, editTodo }) => {
                                         </div>
                                     ) : (
                                         <>
-                                            <span className="todo-text">{todo.text}</span>
+                                                <span className="todo-text">
+                                                    <label className='taskname'>Task Name:</label>
+                                                {todo.text}</span>
                                             <span className="todo-priority">
-                                                Priority: {todo.priority || 'Medium'} ({renderPriorityStars(todo.priority)})
+                                            <label className='priority'>Priority:</label>
+                                            {todo.priority || 'Medium'} ({renderPriorityStars(todo.priority)})
                                             </span>
                                             <span className="todo-due-date">
-                                                Due Date: {todo.dueDate || 'Not set'}
+                                            <label className='due-date'>Due Date:</label>
+                                            {todo.dueDate || 'Not set'}
                                             </span>
                                             <div className="action-buttons">
                                                 <button onClick={() => handleEditClick(todo)} className="edit-btn">

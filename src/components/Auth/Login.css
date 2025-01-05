@@ -1,0 +1,80 @@
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f7fb;
+}
+
+.loginForm {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.loginForm h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.inputGroup {
+    margin-bottom: 20px;
+}
+
+.inputGroup label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.inputGroup input {
+    width: 100%; /* Ensures all input fields are the same width */
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    transition: border-color 0.3s ease;
+}
+
+.inputGroup input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.submitButton {
+    width: 100%; /* Ensures the submit button is the same width as the input fields */
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+    background-color: #0056b3;
+}
+
+.signupPrompt {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.signupPrompt a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signupPrompt a:hover {
+    text-decoration: underline;
+}
