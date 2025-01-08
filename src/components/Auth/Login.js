@@ -24,15 +24,15 @@ const Login = () => {
         
         try {
             const response = await axios.post(`${url}/api/auth/login`, formData);
-            const { accessToken, refreshToken } = response.data;
+            const { accessToken, refreshToken, userId } = response.data;
             
             if (accessToken) {
-                login(accessToken); // This should ideally store the access token in state/context
-                localStorage.setItem('accessToken', accessToken); // Store access token
-                localStorage.setItem('refreshToken', refreshToken); // Store refresh token
+                login(accessToken);
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
                 setSuccessMessage('Login successful! Redirecting...');
                 setTimeout(() => {
-                    navigate('/todos');
+                    navigate(`/${userId}/todos`);
                 }, 1500);
             }
         } catch (err) {

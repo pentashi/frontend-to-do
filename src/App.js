@@ -125,6 +125,7 @@ const App = () => {
                     {/* Public Routes */}
                     <Route path="/" element={!isAuthenticated ? <Signup /> : <Navigate to="/todos" />} />
                     <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/todos" />} />
+                    <Route path="/:userId/todos" element={<TodoList />} /> {/* Dynamic route for todos */}
 
                     {/* Protected Routes */}
                     <Route
