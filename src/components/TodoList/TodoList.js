@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './TodoList.css';
 import axios from 'axios';
 
+const url = process.env.REACT_APP_API_URL;
+
 const TodoList = ({ todos, toggleComplete, deleteTodo, editTodo }) => {
     const [editingId, setEditingId] = useState(null);
     const [editData, setEditData] = useState({ text: '', priority: '', dueDate: '' });
