@@ -1,14 +1,17 @@
-
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import styles from './Login.css';
+
 const url = process.env.REACT_APP_API_URL || 'https://backend-to-do-pa38.onrender.com';
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
-    const { login } = useContext(AuthContext); // We use login from the context to save the token
+    const { login } = useContext(AuthContext);
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,10 +19,24 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setSuccessMessage('');
+        
         try {
             const response = await axios.post(`${url}/api/auth/login`, formData);
-            login(response.data.token);  // Save token in the context
+            const { accessToken, refreshToken } = response.data;
+            
+            if (accessToken) {
+                login(accessToken);
+                localStorage.setItem('authToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+                setSuccessMessage('Login successful! Redirecting...');
+                setTimeout(() => {
+                    navigate('/todos');
+                }, 1500);
+            }
         } catch (err) {
+            console.error('Login failed:', err);
             setError('Invalid credentials');
         }
     };
@@ -56,11 +73,12 @@ const Login = () => {
                 </div>
 
                 {error && <p className={styles.error}>{error}</p>}
+                {successMessage && <p className={styles.success}>{successMessage}</p>}
 
                 <button type="submit" className={styles.submitButton}>Login</button>
 
                 <p className={styles.signupPrompt}>
-                    Don't have an account? <a href="/signup">Sign up here</a>
+                    Don't have an account? <a href="/">Sign up here</a>
                 </p>
             </form>
         </div>

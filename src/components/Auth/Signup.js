@@ -1,47 +1,57 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import styles from './Signup.css';
+
 const url = process.env.REACT_APP_API_URL || 'https://backend-to-do-pa38.onrender.com';
 
 const Signup = () => {
-    const [formData, setFormData] = useState({ name: '', email: '', password: '' });
-    const { login } = useContext(AuthContext);  // Use login to save the token
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setSuccessMessage('');
+
         try {
-            const response = await axios.post(`${url}/api/auth/signup`, formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            console.log(formData)
-            login(response.data.token);  // Save token in the context
+            await axios.post(`${url}/api/auth/signup`, formData);
+            setSuccessMessage('Signup successful! Redirecting to login...');
+            setTimeout(() => {
+                navigate('/login');
+            }, 1500);
         } catch (err) {
-            setError('Signup failed');
+            setError(err.response?.data?.errors?.[0]?.msg || 'Signup failed');
         }
     };
 
     return (
         <div className={styles.signupContainer}>
             <form className={styles.signupForm} onSubmit={handleSubmit}>
-                <h2>Signup</h2>
-                
+                <h2>Sign Up</h2>
+
                 <div className={styles.inputGroup}>
-                    <label htmlFor="name">Full Name</label>
+                    <label htmlFor="name">Name</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
-                        placeholder="Enter your full name"
-                        onChange={handleChange}
+                        placeholder="Enter your name"
                         value={formData.name}
+                        onChange={handleChange}
                         required
                     />
                 </div>
@@ -53,8 +63,8 @@ const Signup = () => {
                         id="email"
                         name="email"
                         placeholder="Enter your email"
-                        onChange={handleChange}
                         value={formData.email}
+                        onChange={handleChange}
                         required
                     />
                 </div>
@@ -66,15 +76,16 @@ const Signup = () => {
                         id="password"
                         name="password"
                         placeholder="Enter your password"
-                        onChange={handleChange}
                         value={formData.password}
+                        onChange={handleChange}
                         required
                     />
                 </div>
 
                 {error && <p className={styles.error}>{error}</p>}
+                {successMessage && <p className={styles.success}>{successMessage}</p>}
 
-                <button type="submit" className={styles.submitButton}>Signup</button>
+                <button type="submit" className={styles.submitButton}>Sign Up</button>
 
                 <p className={styles.loginPrompt}>
                     Already have an account? <a href="/login">Login here</a>

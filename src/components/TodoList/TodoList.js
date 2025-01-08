@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './TodoList.css';
+import axios from 'axios';
 
 const TodoList = ({ todos, toggleComplete, deleteTodo, editTodo }) => {
     const [editingId, setEditingId] = useState(null);
@@ -14,9 +15,19 @@ const TodoList = ({ todos, toggleComplete, deleteTodo, editTodo }) => {
         });
     };
 
-    const handleSaveClick = (id) => {
-        editTodo(id, editData);
-        setEditingId(null);
+    const handleSaveClick = async (id) => {
+        try {
+            const response = await axios.patch(`${url}/api/todos/${id}`, {
+                text: editData.text,
+                priority: editData.priority,
+                dueDate: editData.dueDate,
+            });
+            editTodo(id, response.data);
+            setEditingId(null);
+        } catch (error) {
+            console.error('Error updating todo:', error);
+            alert('Error updating todo. Please try again.');
+        }
     };
 
     const handleInputChange = (field, value) => {

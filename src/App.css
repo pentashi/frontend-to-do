@@ -36,3 +36,61 @@
     transform: rotate(360deg);
   }
 }
+
+.todo-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.8rem;
+}
+
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Add this if you want a subtle hover effect */
+.logout-btn:active {
+    transform: scale(0.98);
+}
+
+/* Optional: Add responsive design */
+@media (max-width: 600px) {
+    .todo-container {
+        padding: 10px;
+    }
+    
+    .app-header {
+        padding: 0.8rem;
+    }
+    
+    .app-header h1 {
+        font-size: 1.5rem;
+    }
+}
