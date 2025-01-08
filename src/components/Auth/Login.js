@@ -27,9 +27,9 @@ const Login = () => {
             const { accessToken, refreshToken } = response.data;
             
             if (accessToken) {
-                login(accessToken);
-                localStorage.setItem('authToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
+                login(accessToken); // This should ideally store the access token in state/context
+                localStorage.setItem('accessToken', accessToken); // Store access token
+                localStorage.setItem('refreshToken', refreshToken); // Store refresh token
                 setSuccessMessage('Login successful! Redirecting...');
                 setTimeout(() => {
                     navigate('/todos');

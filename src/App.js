@@ -12,10 +12,10 @@ const url = process.env.REACT_APP_API_URL || 'https://backend-to-do-pa38.onrende
 const App = () => {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'));
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('accessToken'));
 
     useEffect(() => {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem('accessToken');
         if (token) {
             fetchTodos(token);
         }
@@ -40,7 +40,7 @@ const App = () => {
 
     const addTodo = async (todo) => {
         try {
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
             const response = await axios.post(`${url}/api/todos`, todo, {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -57,7 +57,7 @@ const App = () => {
     const toggleComplete = async (id) => {
         const todo = todos.find((todo) => todo._id === id);
         try {
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
             const response = await axios.patch(
                 `${url}/api/todos/${id}`,
                 { completed: !todo.completed },
@@ -75,7 +75,7 @@ const App = () => {
 
     const deleteTodo = async (id) => {
         try {
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('acessToken');
             await axios.delete(`${url}/api/todos/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -91,7 +91,7 @@ const App = () => {
 
     const editTodo = async (id, newText) => {
         try {
-            const token = localStorage.getItem('authToken');
+            const token = localStorage.getItem('accessToken');
             const response = await axios.patch(
                 `${url}/api/todos/${id}`,
                 { text: newText },
@@ -113,7 +113,7 @@ const App = () => {
             axios.post(`${url}/api/auth/logout`, { refreshToken })
                 .catch(err => console.error('Logout error:', err));
         }
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         setIsAuthenticated(false);
     };
